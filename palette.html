@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Stegi56 · Moonlit Range palette</title>
+<style>
+  :root { --bg:#060a0f; --fg:#eef5ff; --panel:#0c1523; --edge:#192e51;
+          --muted:#aec6eb; --accent:#618cd1; --deep:#020408; }
+  * { box-sizing:border-box }
+  html { scroll-behavior:smooth }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:15px/1.5 "JetBrainsMono Nerd Font","JetBrains Mono",ui-monospace,monospace; }
+  header { position:relative; height:52vh; min-height:340px; overflow:hidden;
+           background:url("backgrounds/5-moonlit-range.png") center 58%/cover; }
+  header::after { content:""; position:absolute; inset:0;
+                  background:linear-gradient(to bottom, transparent 35%, var(--bg)); }
+  header .t { position:absolute; left:6vw; bottom:30px; z-index:1 }
+  h1 { margin:0; font-size:46px; font-weight:800; letter-spacing:-.5px }
+  h1 span { color:var(--accent) }
+  header p { margin:4px 0 0; color:#d6e5fa }
+  nav { position:sticky; top:0; z-index:5; display:flex; gap:4px; padding:10px 6vw;
+        background:color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter:blur(10px);
+        border-bottom:1px solid var(--edge) }
+  nav a { color:var(--muted); text-decoration:none; padding:4px 10px; border-radius:8px; font-size:13px }
+  nav a:hover { color:var(--fg); background:var(--panel) }
+  main { padding:18px 6vw 70px; display:grid; gap:40px }
+  main > * { min-width:0 }
+  .two > *, .exp > * { min-width:0 }
+  h2 { font-size:13px; text-transform:uppercase; letter-spacing:2px; color:var(--fg);
+       margin:0 0 14px; border-bottom:1px solid var(--edge); padding-bottom:8px; display:flex; gap:14px; align-items:baseline }
+  h2 span { text-transform:none; letter-spacing:0; color:var(--muted); font-weight:400; opacity:.8 }
+  .strip { display:flex; height:70px; border-radius:14px; overflow:hidden; border:1px solid var(--edge) }
+  .strip i { flex:1; cursor:pointer; position:relative }
+  .strip i:hover { outline:2px solid var(--fg); outline-offset:-2px }
+  .pill { display:inline-flex; align-items:center; background:var(--panel); border:1px solid var(--edge); border-radius:7px; padding:1px 8px; margin:2px; font-weight:500; color:var(--fg) }
+  .caption { color:var(--muted); font-size:12px; margin-top:8px }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px }
+  .sw { all:unset; cursor:pointer; background:var(--panel); border:1px solid var(--edge);
+        border-radius:14px; overflow:hidden; display:flex; flex-direction:column;
+        transition:transform .15s, border-color .15s, box-shadow .15s }
+  .sw:hover { transform:translateY(-3px); border-color:var(--accent); box-shadow:0 10px 30px #0008 }
+  .chip { background:var(--c); height:100px; display:flex; align-items:flex-end; justify-content:space-between; padding:10px 12px; gap:8px }
+  .hex { color:var(--t); font-weight:700 }
+  .dupe { white-space:nowrap; color:var(--t); font-size:11px; opacity:.8; border:1px solid currentColor; border-radius:6px; padding:0 6px }
+  .meta { padding:10px 12px 12px; display:grid; gap:3px }
+  .meta b { font-weight:600 }
+  .meta small { color:var(--muted); font-size:12px }
+  .g { font-size:10px; font-weight:700; padding:1px 5px; border-radius:5px; margin-right:4px; vertical-align:1px }
+  .g-AAA { background:#62ac76; color:var(--deep) }
+  .g-AA { background:#5cb8cc; color:var(--deep) }
+  .g-low { background:#e37380; color:var(--deep) }
+  .apps { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px }
+  .apps i { font-style:normal; font-size:10.5px; color:#d6e5fa; background:var(--bg);
+            border:1px solid var(--edge); padding:0 6px; border-radius:6px }
+  .apps i.none { color:var(--muted); opacity:.7 }
+  .two { display:grid; grid-template-columns:1.2fr 1fr; gap:22px }
+  @media (max-width:1100px) { .two { grid-template-columns:1fr } }
+  .term { background:var(--bg); border:2px solid var(--accent); border-radius:12px; overflow:hidden }
+  .term .bar { background:#04070b; padding:9px 12px; display:flex; gap:7px; align-items:center;
+               color:var(--muted); font-size:12px; border-bottom:1px solid var(--edge) }
+  .term .bar i { width:11px; height:11px; border-radius:50% }
+  .term .bar span { margin-left:8px }
+  pre { margin:0; padding:16px 18px; font:inherit; font-size:14px; overflow:auto }
+  .cursor { background:var(--fg); animation:blink 1s steps(1) infinite }
+  @keyframes blink { 50% { opacity:0 } }
+  .ui { background:var(--panel); border:1px solid var(--edge); border-radius:12px; padding:18px; display:grid; gap:14px; align-content:start }
+  .mockbar { display:flex; justify-content:space-between; background:var(--bg); border-radius:8px; padding:6px 12px; font-size:13px }
+  .ui .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center }
+  .btn { padding:8px 14px; border-radius:10px; border:1px solid var(--edge); background:#04070b; color:var(--fg) }
+  .btn.p { background:var(--accent); border-color:var(--accent); color:var(--deep); font-weight:700 }
+  .btn.ghost { background:transparent; color:var(--accent); border-color:var(--accent) }
+  .menu { background:var(--bg); border:1px solid var(--edge); border-radius:10px; padding:6px; display:grid; gap:2px }
+  .menu div { padding:5px 10px; border-radius:7px }
+  .menu .hl { background:var(--edge); color:var(--accent) }
+  .sel { background:#192e51; padding:2px 4px; border-radius:4px }
+  .win { border:2px solid var(--accent); border-radius:10px; padding:10px 12px; background:var(--bg) }
+  .win.off { border-color:#2e4974; color:var(--muted) }
+  .notif { display:grid; gap:2px; background:var(--bg); border-left:3px solid var(--accent); border-radius:8px; padding:10px 12px }
+  .mx { border-collapse:separate; border-spacing:4px; width:100%; font-size:13px }
+  .mx th { color:var(--muted); font-weight:500; text-align:left; white-space:nowrap; padding:4px 6px }
+  .mx td { border-radius:8px; padding:10px; white-space:nowrap; border:1px solid var(--edge) }
+  .mx td b { font-size:16px; margin-right:4px }
+  .mx td .g { margin-left:6px }
+  .dot { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; border:1px solid var(--edge) }
+  .scroll { overflow-x:auto }
+  .ansig { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin-top:14px }
+  .ansi { display:grid; grid-template-columns:1fr 1fr; gap:4px 8px; background:var(--bg); border:1px solid var(--edge);
+          border-radius:10px; padding:10px; font-size:13px }
+  .blk { height:8px; border-radius:3px }
+  .exp { display:grid; grid-template-columns:1fr 1fr; gap:16px }
+  @media (max-width:1100px) { .exp { grid-template-columns:1fr } }
+  .code { position:relative; background:var(--deep); border:1px solid var(--edge); border-radius:12px }
+  .code pre { font-size:12.5px; max-height:420px; color:#d6e5fa }
+  .code button { position:absolute; top:10px; right:10px; background:var(--panel); color:var(--fg);
+                 border:1px solid var(--edge); border-radius:8px; padding:4px 10px; font:inherit; font-size:12px; cursor:pointer }
+  .code button:hover { border-color:var(--accent); color:var(--accent) }
+  .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(90px);
+           background:var(--accent); color:var(--deep); padding:8px 16px; border-radius:10px;
+           font-weight:700; transition:transform .2s; z-index:10 }
+  .toast.on { transform:translateX(-50%) translateY(0) }
+</style></head>
+<body>
+<header><div class="t"><h1>Stegi56 · <span>Moonlit Range</span></h1>
+<p>Monochromatic on the stegi56.com blue (H217), sampled from the wallpaper · click any colour to copy it</p></div></header>
+<nav><a href="#ramp">Ramp</a><a href="#wallpaper">Wallpaper</a><a href="#surfaces">Surfaces</a><a href="#text">Text</a>
+<a href="#accent">Accent</a><a href="#terminal">Terminal</a><a href="#contrast">Contrast</a><a href="#use">In use</a><a href="#export">Export</a></nav>
+<main>
+  <section id="ramp"><h2>Ramp<span>Surfaces → accent → text</span></h2><div class="strip"><i style="background:#020408" title="darker background #020408"></i><i style="background:#04070b" title="dark background #04070b"></i><i style="background:#060a0f" title="background #060a0f"></i><i style="background:#0c1523" title="lighter background #0c1523"></i><i style="background:#192e51" title="selection #192e51"></i><i style="background:#2e4974" title="muted #2e4974"></i><i style="background:#618cd1" title="accent #618cd1"></i><i style="background:#aec6eb" title="dark foreground #aec6eb"></i><i style="background:#d6e5fa" title="light foreground #d6e5fa"></i><i style="background:#eef5ff" title="foreground #eef5ff"></i><i style="background:#eef5ff" title="bright foreground #eef5ff"></i></div></section>
+  <section id="wallpaper"><h2>Wallpaper source<span>12 dominant colours in 5-moonlit-range.png, dark to light, sized by coverage</span></h2>
+    <div class="strip copyable"><i style="background:#0c1523;flex:218.9" data-hex="#0c1523" title="#0c1523"></i><i style="background:#192e51;flex:132.3" data-hex="#192e51" title="#192e51"></i><i style="background:#2e4974;flex:64.2" data-hex="#2e4974" title="#2e4974"></i><i style="background:#2755a0;flex:99.5" data-hex="#2755a0" title="#2755a0"></i><i style="background:#475872;flex:16.1" data-hex="#475872" title="#475872"></i><i style="background:#2f6bcb;flex:72.9" data-hex="#2f6bcb" title="#2f6bcb"></i><i style="background:#4c72af;flex:15.2" data-hex="#4c72af" title="#4c72af"></i><i style="background:#6f86ac;flex:8.1" data-hex="#6f86ac" title="#6f86ac"></i><i style="background:#618cd1;flex:36.6" data-hex="#618cd1" title="#618cd1"></i><i style="background:#91b0e1;flex:33.6" data-hex="#91b0e1" title="#91b0e1"></i><i style="background:#abc3e7;flex:19.7" data-hex="#abc3e7" title="#abc3e7"></i><i style="background:#d6e5fa;flex:43.1" data-hex="#d6e5fa" title="#d6e5fa"></i></div>
+    <div class="caption">Palette colours taken directly from the image: <b class='pill'><span class='dot' style='background:#0c1523'></span>#0c1523</b> <b class='pill'><span class='dot' style='background:#192e51'></span>#192e51</b> <b class='pill'><span class='dot' style='background:#2e4974'></span>#2e4974</b> <b class='pill'><span class='dot' style='background:#618cd1'></span>#618cd1</b> <b class='pill'><span class='dot' style='background:#d6e5fa'></span>#d6e5fa</b></div></section>
+  <section id="surfaces"><h2>Surfaces<span>Backgrounds, panels, selections and borders</span></h2><div class="grid">
+    <button class="sw" style="--c:#020408;--t:#eef5ff" data-hex="#020408" title="Click to copy #020408">
+      <span class="chip"><span class="hex">#020408</span></span>
+      <span class="meta"><b>darker background</b>
+        <small>&nbsp;</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> foreground on it 18.7:1</small>
+        <span class="apps"><i>neovim</i></span></span>
+    </button>
+    <button class="sw" style="--c:#04070b;--t:#eef5ff" data-hex="#04070b" title="Click to copy #04070b">
+      <span class="chip"><span class="hex">#04070b</span></span>
+      <span class="meta"><b>dark background</b>
+        <small>&nbsp;</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> foreground on it 18.4:1</small>
+        <span class="apps"><i>hermes</i><i>neovim</i><i>t3 code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#060a0f;--t:#eef5ff" data-hex="#060a0f" title="Click to copy #060a0f">
+      <span class="chip"><span class="hex">#060a0f</span></span>
+      <span class="meta"><b>background</b>
+        <small>top of the night sky</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> foreground on it 18.1:1</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>gum</i><i>helix</i><i>hermes</i><i>share picker</i><i>+7</i></span></span>
+    </button>
+    <button class="sw" style="--c:#0c1523;--t:#eef5ff" data-hex="#0c1523" title="Click to copy #0c1523">
+      <span class="chip"><span class="hex">#0c1523</span></span>
+      <span class="meta"><b>lighter background</b>
+        <small>mountain shadow</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> foreground on it 16.7:1</small>
+        <span class="apps"><i>btop</i><i>helix</i><i>hermes</i><i>share picker</i><i>neovim</i></span></span>
+    </button>
+    <button class="sw" style="--c:#192e51;--t:#eef5ff" data-hex="#192e51" title="Click to copy #192e51">
+      <span class="chip"><span class="hex">#192e51</span></span>
+      <span class="meta"><b>selection</b>
+        <small>shadowed ridge</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> foreground on it 12.3:1</small>
+        <span class="apps"><i>btop</i><i>hermes</i><i>neovim</i><i>t3 code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#2e4974;--t:#eef5ff" data-hex="#2e4974" title="Click to copy #2e4974">
+      <span class="chip"><span class="hex">#2e4974</span></span>
+      <span class="meta"><b>muted</b>
+        <small>far-range haze</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> foreground on it 8.2:1</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>gum</i><i>helix</i><i>hermes</i><i>share picker</i><i>+6</i></span></span>
+    </button></div></section><section id="text"><h2>Text<span>Foreground tiers, from secondary to brightest</span></h2><div class="grid">
+    <button class="sw" style="--c:#aec6eb;--t:#020408" data-hex="#aec6eb" title="Click to copy #aec6eb">
+      <span class="chip"><span class="hex">#aec6eb</span></span>
+      <span class="meta"><b>dark foreground</b>
+        <small>snow in shadow</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 11.4:1 on background</small>
+        <span class="apps"><i>btop</i><i>hermes</i><i>neovim</i><i>t3 code</i><i>vs code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#d6e5fa;--t:#020408" data-hex="#d6e5fa" title="Click to copy #d6e5fa">
+      <span class="chip"><span class="hex">#d6e5fa</span></span>
+      <span class="meta"><b>light foreground</b>
+        <small>snow</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 15.5:1 on background</small>
+        <span class="apps"><i>btop</i><i>neovim</i></span></span>
+    </button>
+    <button class="sw" style="--c:#eef5ff;--t:#020408" data-hex="#eef5ff" title="Click to copy #eef5ff">
+      <span class="chip"><span class="hex">#eef5ff</span><span class="dupe" title="Identical value">= bright foreground</span></span>
+      <span class="meta"><b>foreground</b>
+        <small>moonlight</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 18.1:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>gum</i><i>helix</i><i>hermes</i><i>share picker</i><i>+7</i></span></span>
+    </button>
+    <button class="sw" style="--c:#eef5ff;--t:#020408" data-hex="#eef5ff" title="Click to copy #eef5ff">
+      <span class="chip"><span class="hex">#eef5ff</span><span class="dupe" title="Identical value">= foreground</span></span>
+      <span class="meta"><b>bright foreground</b>
+        <small>moon</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 18.1:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>ghostty</i><i>gum</i><i>helix</i><i>hermes</i><i>kitty</i><i>neovim</i><i>+3</i></span></span>
+    </button></div></section><section id="accent"><h2>Accent<span>Active window borders, focus, highlights</span></h2><div class="grid">
+    <button class="sw" style="--c:#618cd1;--t:#eef5ff" data-hex="#618cd1" title="Click to copy #618cd1">
+      <span class="chip"><span class="hex">#618cd1</span></span>
+      <span class="meta"><b>accent</b>
+        <small>moonlit slope</small>
+        <small class="cr"><span class="g g-AA">AA</span> 5.8:1 on background</small>
+        <span class="apps"><i>btop</i><i>claude</i><i>gum</i><i>hermes</i><i>share picker</i><i>keyboard rgb</i><i>kitty</i><i>neovim</i><i>+5</i></span></span>
+    </button></div></section><section id="terminal"><h2>Terminal<span>ANSI colours for terminals, editors and TUIs</span></h2><div class="grid">
+    <button class="sw" style="--c:#e37380;--t:#020408" data-hex="#e37380" title="Click to copy #e37380">
+      <span class="chip"><span class="hex">#e37380</span></span>
+      <span class="meta"><b>red</b>
+        <small>H353 · 6.6:1 · embers seen through smoke</small>
+        <small class="cr"><span class="g g-AA">AA</span> 6.6:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>helix</i><i>hermes</i><i>kitty</i><i>neovim</i><i>+4</i></span></span>
+    </button>
+    <button class="sw" style="--c:#f0913f;--t:#020408" data-hex="#f0913f" title="Click to copy #f0913f">
+      <span class="chip"><span class="hex">#f0913f</span></span>
+      <span class="meta"><b>orange</b>
+        <small>H28 · 8.3:1 · campfire ember at its hottest</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 8.3:1 on background</small>
+        <span class="apps"><i>neovim</i><i>vs code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#f5c452;--t:#020408" data-hex="#f5c452" title="Click to copy #f5c452">
+      <span class="chip"><span class="hex">#f5c452</span></span>
+      <span class="meta"><b>yellow</b>
+        <small>H42 · 12.2:1 · firelight on snow</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 12.2:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>helix</i><i>hermes</i><i>kitty</i><i>neovim</i><i>+3</i></span></span>
+    </button>
+    <button class="sw" style="--c:#62ac76;--t:#020408" data-hex="#62ac76" title="Click to copy #62ac76">
+      <span class="chip"><span class="hex">#62ac76</span></span>
+      <span class="meta"><b>green</b>
+        <small>H136 · 7.3:1 · pine ridge, muted to sit behind the fire</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 7.3:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>helix</i><i>hermes</i><i>kitty</i><i>neovim</i><i>+3</i></span></span>
+    </button>
+    <button class="sw" style="--c:#5cb8cc;--t:#020408" data-hex="#5cb8cc" title="Click to copy #5cb8cc">
+      <span class="chip"><span class="hex">#5cb8cc</span></span>
+      <span class="meta"><b>cyan</b>
+        <small>H191 · 8.7:1 · glacier melt</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 8.7:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>helix</i><i>hermes</i><i>kitty</i><i>neovim</i><i>+3</i></span></span>
+    </button>
+    <button class="sw" style="--c:#79b4f7;--t:#020408" data-hex="#79b4f7" title="Click to copy #79b4f7">
+      <span class="chip"><span class="hex">#79b4f7</span></span>
+      <span class="meta"><b>blue</b>
+        <small>H212 · 9.2:1 · meltwater — river under moonlight</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 9.2:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>helix</i><i>hermes</i><i>kitty</i><i>neovim</i><i>+3</i></span></span>
+    </button>
+    <button class="sw" style="--c:#ab8de7;--t:#020408" data-hex="#ab8de7" title="Click to copy #ab8de7">
+      <span class="chip"><span class="hex">#ab8de7</span></span>
+      <span class="meta"><b>magenta</b>
+        <small>H260 · 7.3:1 · distant aurora</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 7.3:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>btop</i><i>claude</i><i>ghostty</i><i>helix</i><i>hermes</i><i>kitty</i><i>neovim</i><i>+3</i></span></span>
+    </button>
+    <button class="sw" style="--c:#c69265;--t:#020408" data-hex="#c69265" title="Click to copy #c69265">
+      <span class="chip"><span class="hex">#c69265</span></span>
+      <span class="meta"><b>brown</b>
+        <small>H28 · 7.3:1 · seasoned oak in firelight</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 7.3:1 on background</small>
+        <span class="apps"><i>neovim</i></span></span>
+    </button></div></section><section><h2>Terminal bright<span>Bright ANSI variants</span></h2><div class="grid">
+    <button class="sw" style="--c:#e9a4ac;--t:#020408" data-hex="#e9a4ac" title="Click to copy #e9a4ac">
+      <span class="chip"><span class="hex">#e9a4ac</span></span>
+      <span class="meta"><b>bright red</b>
+        <small>&nbsp;</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 9.8:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>ghostty</i><i>hermes</i><i>kitty</i><i>neovim</i><i>pi</i><i>vs code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#ffd97a;--t:#020408" data-hex="#ffd97a" title="Click to copy #ffd97a">
+      <span class="chip"><span class="hex">#ffd97a</span></span>
+      <span class="meta"><b>bright yellow</b>
+        <small>&nbsp;</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 14.6:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>claude</i><i>ghostty</i><i>kitty</i><i>neovim</i><i>pi</i><i>vs code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#88c198;--t:#020408" data-hex="#88c198" title="Click to copy #88c198">
+      <span class="chip"><span class="hex">#88c198</span></span>
+      <span class="meta"><b>bright green</b>
+        <small>&nbsp;</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 9.6:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>ghostty</i><i>kitty</i><i>neovim</i><i>pi</i><i>vs code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#82d4e6;--t:#020408" data-hex="#82d4e6" title="Click to copy #82d4e6">
+      <span class="chip"><span class="hex">#82d4e6</span></span>
+      <span class="meta"><b>bright cyan</b>
+        <small>&nbsp;</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 11.8:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>claude</i><i>ghostty</i><i>kitty</i><i>neovim</i><i>pi</i><i>vs code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#abcff8;--t:#020408" data-hex="#abcff8" title="Click to copy #abcff8">
+      <span class="chip"><span class="hex">#abcff8</span></span>
+      <span class="meta"><b>bright blue</b>
+        <small>&nbsp;</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 12.3:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>ghostty</i><i>share picker</i><i>kitty</i><i>neovim</i><i>pi</i><i>vs code</i></span></span>
+    </button>
+    <button class="sw" style="--c:#bfa9ed;--t:#020408" data-hex="#bfa9ed" title="Click to copy #bfa9ed">
+      <span class="chip"><span class="hex">#bfa9ed</span></span>
+      <span class="meta"><b>bright magenta</b>
+        <small>&nbsp;</small>
+        <small class="cr"><span class="g g-AAA">AAA</span> 9.6:1 on background</small>
+        <span class="apps"><i>alacritty</i><i>ghostty</i><i>kitty</i><i>neovim</i><i>pi</i><i>vs code</i></span></span>
+    </button></div></section>
+  <section><h2>ANSI pairs<span>Normal and bright side by side on the background</span></h2><div class="ansig"><div class="ansi"><span style="color:#e37380">red</span><span style="color:#e9a4ac">bright red</span><span class="blk" style="background:#e37380"></span><span class="blk" style="background:#e9a4ac"></span></div><div class="ansi"><span style="color:#f0913f">orange</span><span style="color:#f0913f">—</span><span class="blk" style="background:#f0913f"></span><span class="blk" style="background:#f0913f"></span></div><div class="ansi"><span style="color:#f5c452">yellow</span><span style="color:#ffd97a">bright yellow</span><span class="blk" style="background:#f5c452"></span><span class="blk" style="background:#ffd97a"></span></div><div class="ansi"><span style="color:#62ac76">green</span><span style="color:#88c198">bright green</span><span class="blk" style="background:#62ac76"></span><span class="blk" style="background:#88c198"></span></div><div class="ansi"><span style="color:#5cb8cc">cyan</span><span style="color:#82d4e6">bright cyan</span><span class="blk" style="background:#5cb8cc"></span><span class="blk" style="background:#82d4e6"></span></div><div class="ansi"><span style="color:#79b4f7">blue</span><span style="color:#abcff8">bright blue</span><span class="blk" style="background:#79b4f7"></span><span class="blk" style="background:#abcff8"></span></div><div class="ansi"><span style="color:#ab8de7">magenta</span><span style="color:#bfa9ed">bright magenta</span><span class="blk" style="background:#ab8de7"></span><span class="blk" style="background:#bfa9ed"></span></div><div class="ansi"><span style="color:#c69265">brown</span><span style="color:#c69265">—</span><span class="blk" style="background:#c69265"></span><span class="blk" style="background:#c69265"></span></div></div></section>
+  <section id="contrast"><h2>Contrast<span>Every text colour on every surface · WCAG 2 ratios</span></h2><div class="scroll"><table class="mx"><tr><th></th><th><span class="dot" style="background:#020408"></span>darker background</th><th><span class="dot" style="background:#04070b"></span>dark background</th><th><span class="dot" style="background:#060a0f"></span>background</th><th><span class="dot" style="background:#0c1523"></span>lighter background</th><th><span class="dot" style="background:#192e51"></span>selection</th><th><span class="dot" style="background:#2e4974"></span>muted</th></tr><tr><th><span class="dot" style="background:#aec6eb"></span>dark foreground</th><td style="background:#020408;color:#aec6eb"><b>Aa</b> 11.8<span class="g g-AAA">AAA</span></td><td style="background:#04070b;color:#aec6eb"><b>Aa</b> 11.6<span class="g g-AAA">AAA</span></td><td style="background:#060a0f;color:#aec6eb"><b>Aa</b> 11.4<span class="g g-AAA">AAA</span></td><td style="background:#0c1523;color:#aec6eb"><b>Aa</b> 10.5<span class="g g-AAA">AAA</span></td><td style="background:#192e51;color:#aec6eb"><b>Aa</b> 7.8<span class="g g-AAA">AAA</span></td><td style="background:#2e4974;color:#aec6eb"><b>Aa</b> 5.2<span class="g g-AA">AA</span></td></tr><tr><th><span class="dot" style="background:#d6e5fa"></span>light foreground</th><td style="background:#020408;color:#d6e5fa"><b>Aa</b> 16.1<span class="g g-AAA">AAA</span></td><td style="background:#04070b;color:#d6e5fa"><b>Aa</b> 15.8<span class="g g-AAA">AAA</span></td><td style="background:#060a0f;color:#d6e5fa"><b>Aa</b> 15.5<span class="g g-AAA">AAA</span></td><td style="background:#0c1523;color:#d6e5fa"><b>Aa</b> 14.3<span class="g g-AAA">AAA</span></td><td style="background:#192e51;color:#d6e5fa"><b>Aa</b> 10.6<span class="g g-AAA">AAA</span></td><td style="background:#2e4974;color:#d6e5fa"><b>Aa</b> 7.1<span class="g g-AAA">AAA</span></td></tr><tr><th><span class="dot" style="background:#eef5ff"></span>foreground</th><td style="background:#020408;color:#eef5ff"><b>Aa</b> 18.7<span class="g g-AAA">AAA</span></td><td style="background:#04070b;color:#eef5ff"><b>Aa</b> 18.4<span class="g g-AAA">AAA</span></td><td style="background:#060a0f;color:#eef5ff"><b>Aa</b> 18.1<span class="g g-AAA">AAA</span></td><td style="background:#0c1523;color:#eef5ff"><b>Aa</b> 16.7<span class="g g-AAA">AAA</span></td><td style="background:#192e51;color:#eef5ff"><b>Aa</b> 12.3<span class="g g-AAA">AAA</span></td><td style="background:#2e4974;color:#eef5ff"><b>Aa</b> 8.2<span class="g g-AAA">AAA</span></td></tr><tr><th><span class="dot" style="background:#eef5ff"></span>bright foreground</th><td style="background:#020408;color:#eef5ff"><b>Aa</b> 18.7<span class="g g-AAA">AAA</span></td><td style="background:#04070b;color:#eef5ff"><b>Aa</b> 18.4<span class="g g-AAA">AAA</span></td><td style="background:#060a0f;color:#eef5ff"><b>Aa</b> 18.1<span class="g g-AAA">AAA</span></td><td style="background:#0c1523;color:#eef5ff"><b>Aa</b> 16.7<span class="g g-AAA">AAA</span></td><td style="background:#192e51;color:#eef5ff"><b>Aa</b> 12.3<span class="g g-AAA">AAA</span></td><td style="background:#2e4974;color:#eef5ff"><b>Aa</b> 8.2<span class="g g-AAA">AAA</span></td></tr><tr><th><span class="dot" style="background:#618cd1"></span>accent</th><td style="background:#020408;color:#618cd1"><b>Aa</b> 6.0<span class="g g-AA">AA</span></td><td style="background:#04070b;color:#618cd1"><b>Aa</b> 5.9<span class="g g-AA">AA</span></td><td style="background:#060a0f;color:#618cd1"><b>Aa</b> 5.8<span class="g g-AA">AA</span></td><td style="background:#0c1523;color:#618cd1"><b>Aa</b> 5.4<span class="g g-AA">AA</span></td><td style="background:#192e51;color:#618cd1"><b>Aa</b> 4.0<span class="g g-AA">AA large</span></td><td style="background:#2e4974;color:#618cd1"><b>Aa</b> 2.7<span class="g g-low">low</span></td></tr></table></div></section>
+  <section id="use"><h2>In use<span>How the palette reads in a terminal and the desktop</span></h2><div class="two">
+<div class="term">
+  <div class="bar"><i style="background:#e37380"></i><i style="background:#f5c452"></i><i style="background:#62ac76"></i><span>joel@omarchy: ~/Projects</span></div>
+<pre><span style="color:#62ac76">➜</span> <span style="color:#5cb8cc">~/Projects</span> <span style="color:#ab8de7">git:(</span><span style="color:#e37380">main</span><span style="color:#ab8de7">)</span> git status
+On branch main
+Changes not staged for commit:
+  <span style="color:#e37380">modified:   src/app.ts</span>
+  <span style="color:#62ac76">new file:   src/theme.ts</span>
+
+<span style="color:#62ac76">➜</span> <span style="color:#5cb8cc">~/Projects</span> ls
+<span style="color:#79b4f7">src/</span>  <span style="color:#79b4f7">tests/</span>  <span style="color:#f5c452">package.json</span>  README.md  <span style="color:#aec6eb">.env</span>
+
+<span style="color:#aec6eb"># theme.ts</span>
+<span style="color:#ab8de7">export const</span> <span style="color:#79b4f7">accent</span> = <span style="color:#62ac76">"#618cd1"</span>;
+<span style="color:#ab8de7">const</span> <span style="color:#79b4f7">peaks</span> = <span style="color:#f0913f">5</span>; <span style="color:#aec6eb">// moonlit</span>
+<span style="color:#f5c452">warning:</span> <span style="color:#ffd97a">snow at 2,400m</span>
+<span style="color:#e37380">error:</span> <span style="color:#e9a4ac">summit not found</span>
+<span style="color:#62ac76">➜</span> <span class="cursor"> </span></pre>
+</div>
+<div class="ui">
+  
+<div class="mockbar">
+  <span class="ws"><b style="color:#618cd1">1</b> 2 <span style="color:#aec6eb">3 4 5</span></span>
+  <span style="color:#eef5ff">Sunday 16:24</span>
+  <span style="color:#d6e5fa">  󰂯  󰕾  󰁹 82%</span>
+</div>
+  <div class="win">Active window · accent border</div>
+  <div class="win off">Inactive window · muted border</div>
+  <div class="row"><span class="btn p">Primary</span><span class="btn">Secondary</span><span class="btn ghost">Ghost</span></div>
+  <div class="menu">
+    <div>󰀻  Apps</div><div class="hl">󰸉  Style</div><div>  Setup</div><div style="color:#aec6eb">  System</div>
+  </div>
+  <div>Plain text with a <span class="sel">selected phrase</span> and a <span style="color:var(--accent)">highlighted link</span>.</div>
+  <div style="color:#aec6eb">Secondary text for hints and timestamps.</div>
+  <div class="notif"><b>Reminder</b><span style="color:#aec6eb">Pickup Jack · in 15 min</span></div>
+</div></div></section>
+  <section id="export"><h2>Export<span>Copy the palette out</span></h2><div class="exp">
+    <div class="code"><button data-copy="toml">Copy</button><pre id="toml"># stegi56 — moonlit range: monochromatic on the stegi56.com blue (H217),
+# sampled from backgrounds/5-moonlit-range.png
+#
+# ANSI colours follow a split-complementary harmony: the base blue H217 against
+# its split-complement at H50 (firelight), with a rose red at H353 closing the
+# warm arc. Greens and cyans are held back in saturation so they read as cold
+# forest behind the fire. Every ANSI colour clears 6.6:1 against the background;
+# all but red clear AAA (7:1).
+mode = &quot;dark&quot;
+
+accent = &quot;#618cd1&quot;            # moonlit slope
+selection = &quot;#192e51&quot;         # shadowed ridge
+muted = &quot;#2e4974&quot;             # far-range haze
+
+background = &quot;#060a0f&quot;        # top of the night sky
+dark_background = &quot;#04070b&quot;
+darker_background = &quot;#020408&quot;
+lighter_background = &quot;#0c1523&quot; # mountain shadow
+
+foreground = &quot;#eef5ff&quot;        # moonlight
+dark_foreground = &quot;#aec6eb&quot;     # snow in shadow
+light_foreground = &quot;#d6e5fa&quot;    # snow
+bright_foreground = &quot;#eef5ff&quot; # moon
+
+# Warm arc — the campfire, opposite the moonlit blue
+red = &quot;#e37380&quot;               # H353 · 6.6:1 · embers seen through smoke
+orange = &quot;#f0913f&quot;            # H28 · 8.3:1 · campfire ember at its hottest
+yellow = &quot;#f5c452&quot;            # H42 · 12.2:1 · firelight on snow
+brown = &quot;#c69265&quot;             # H28 · 7.3:1 · seasoned oak in firelight
+
+# Cold arc — the range behind the fire
+green = &quot;#62ac76&quot;             # H136 · 7.3:1 · pine ridge, muted to sit behind the fire
+cyan = &quot;#5cb8cc&quot;              # H191 · 8.7:1 · glacier melt
+blue = &quot;#79b4f7&quot;              # H212 · 9.2:1 · meltwater — river under moonlight
+magenta = &quot;#ab8de7&quot;           # H260 · 7.3:1 · distant aurora
+
+bright_red = &quot;#e9a4ac&quot;
+bright_yellow = &quot;#ffd97a&quot;
+bright_green = &quot;#88c198&quot;
+bright_cyan = &quot;#82d4e6&quot;
+bright_blue = &quot;#abcff8&quot;
+bright_magenta = &quot;#bfa9ed&quot;
+</pre></div>
+    <div class="code"><button data-copy="css">Copy</button><pre id="css">:root {
+  --accent: #618cd1;
+  --selection: #192e51;
+  --muted: #2e4974;
+  --background: #060a0f;
+  --dark-background: #04070b;
+  --darker-background: #020408;
+  --lighter-background: #0c1523;
+  --foreground: #eef5ff;
+  --dark-foreground: #aec6eb;
+  --light-foreground: #d6e5fa;
+  --bright-foreground: #eef5ff;
+  --red: #e37380;
+  --orange: #f0913f;
+  --yellow: #f5c452;
+  --brown: #c69265;
+  --green: #62ac76;
+  --cyan: #5cb8cc;
+  --blue: #79b4f7;
+  --magenta: #ab8de7;
+  --bright-red: #e9a4ac;
+  --bright-yellow: #ffd97a;
+  --bright-green: #88c198;
+  --bright-cyan: #82d4e6;
+  --bright-blue: #abcff8;
+  --bright-magenta: #bfa9ed;
+}</pre></div>
+  </div></section>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+  const t = document.getElementById('toast');
+  const toast = m => { t.textContent = m; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 1200); };
+  document.querySelectorAll('.sw, .strip i').forEach(b => b.onclick = () => {
+    const hex = b.dataset.hex || b.title.split(' ').pop();
+    navigator.clipboard.writeText(hex); toast('Copied ' + hex);
+  });
+  document.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => {
+    navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent); toast('Copied ' + b.dataset.copy);
+  });
+</script>
+</body></html>

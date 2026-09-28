@@ -1,0 +1,42 @@
+# stegi56 — moonlit range: monochromatic on the stegi56.com blue (H217),
+# sampled from backgrounds/5-moonlit-range.png
+#
+# ANSI colours follow a split-complementary harmony: the base blue H217 against
+# its split-complement at H50 (firelight), with a rose red at H353 closing the
+# warm arc. Greens and cyans are held back in saturation so they read as cold
+# forest behind the fire. Every ANSI colour clears 6.6:1 against the background;
+# all but red clear AAA (7:1).
+mode = "dark"
+
+accent = "#618cd1"            # moonlit slope
+selection = "#192e51"         # shadowed ridge
+muted = "#2e4974"             # far-range haze
+
+background = "#060a0f"        # top of the night sky
+dark_background = "#04070b"
+darker_background = "#020408"
+lighter_background = "#0c1523" # mountain shadow
+
+foreground = "#eef5ff"        # moonlight
+dark_foreground = "#aec6eb"     # snow in shadow
+light_foreground = "#d6e5fa"    # snow
+bright_foreground = "#eef5ff" # moon
+
+# Warm arc — the campfire, opposite the moonlit blue
+red = "#e37380"               # H353 · 6.6:1 · embers seen through smoke
+orange = "#f0913f"            # H28 · 8.3:1 · campfire ember at its hottest
+yellow = "#f5c452"            # H42 · 12.2:1 · firelight on snow
+brown = "#c69265"             # H28 · 7.3:1 · seasoned oak in firelight
+
+# Cold arc — the range behind the fire
+green = "#62ac76"             # H136 · 7.3:1 · pine ridge, muted to sit behind the fire
+cyan = "#5cb8cc"              # H191 · 8.7:1 · glacier melt
+blue = "#79b4f7"              # H212 · 9.2:1 · meltwater — river under moonlight
+magenta = "#ab8de7"           # H260 · 7.3:1 · distant aurora
+
+bright_red = "#e9a4ac"
+bright_yellow = "#ffd97a"
+bright_green = "#88c198"
+bright_cyan = "#82d4e6"
+bright_blue = "#abcff8"
+bright_magenta = "#bfa9ed"

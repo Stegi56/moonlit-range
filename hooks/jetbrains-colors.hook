@@ -1,0 +1,7 @@
+#!/bin/bash
+# Rebuild the JetBrains "Omarchy" theme plugin (UI chrome + editor scheme) from
+# the theme that was just set. $1 is the snake-cased theme name.
+#
+# JetBrains IDEs load themes at startup, so a running IDE needs a restart
+# before the new colours show up.
+exec python3 "$HOME/.config/omarchy/themes/stegi56/tools/jetbrains/build-jar.py" >/dev/null 2>&1

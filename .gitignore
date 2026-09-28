@@ -1,0 +1,14 @@
+# Versioning is done through git from here on - no more timestamped backups.
+*.bak
+*.bak.*
+*.orig
+*.rej
+
+# Generated artefacts. Everything here is derived from colors.toml by the
+# scripts in tools/, so it is rebuilt rather than tracked.
+omarchy.theme.json
+*.icls
+*.jar
+
+__pycache__/
+*.pyc
